@@ -16,7 +16,9 @@ export MAP_ROOT_DEV
 
 # find and initialize free block device nodes
 init_nbd() {
-	modprobe nbd max_part=16
+	if [ ! -d "/sys/class/block/nbd0" ]; then
+		modprobe nbd max_part=16
+	fi
 	if [ -z "${NBD_DEV}" ]; then
 	for x in /sys/class/block/nbd* ; do
 		S=`cat $x/size`
